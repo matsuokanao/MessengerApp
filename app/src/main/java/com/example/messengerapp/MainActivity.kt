@@ -16,9 +16,12 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.example.messengerapp.Fragments.ChatsFragment
 import com.example.messengerapp.Fragments.SeachFragment
 import com.example.messengerapp.Fragments.SettingsFragment
+import com.google.android.material.tabs.TabLayout
 import java.text.FieldPosition
 
 
+
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.title=""
 
-        val tableLayout: TableLayout = findViewById(R.id.tab_layout)
+        val tabLayout: TabLayout = findViewById(R.id.tab_layout)
         val viewPager: ViewPager = findViewById(R.id.view_page)
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
 
@@ -76,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         override fun getCount(): Int {
           return fragments.size
         }
-        fun addFragment(fragment: Fragment,title:String){
+        fun addFragment(fragment: Fragment,title: String){
             fragments.add(fragment)
             titles.add(title)
         }
