@@ -1,5 +1,6 @@
 package com.example.messengerapp
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -16,7 +17,11 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.example.messengerapp.Fragments.ChatsFragment
 import com.example.messengerapp.Fragments.SeachFragment
 import com.example.messengerapp.Fragments.SettingsFragment
+import com.example.messengerapp.ModelClasses.Users
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 import java.text.FieldPosition
 
 
@@ -24,10 +29,18 @@ import java.text.FieldPosition
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
+    var refUsers: DatabaseReference? = null
+    var firebaseUser: FirebaseUser? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar_main)
+
+        firebaseUser = FirebaseAuth.getInstance().currentUser
+        refUsers = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser!!.uid)
+
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_main)
         setSupportActionBar(toolbar)
@@ -43,6 +56,19 @@ class MainActivity : AppCompatActivity() {
 
         viewPager.adapter = viewPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
+
+        //display username and profile picture
+        refUsers!!.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0.exists()){
+                    val user: Users? = p0.getValue(Users::class.java)
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -55,10 +81,19 @@ class MainActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+         when (item.itemId) {
+            R.id.action_logout -> {
+                FirebaseAuth.getInstance().signOut()
+
+                val intent = Intent(this@MainActivity,WelcomeActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish()
+
+                return  true
+            }
         }
+        return false
     }
 
     internal  class ViewPagerAdapter(fragmentManager: FragmentManager):
