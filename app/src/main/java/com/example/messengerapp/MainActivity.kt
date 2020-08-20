@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.messengerapp.Fragments.ChatsFragment
-import com.example.messengerapp.Fragments.SeachFragment
+import com.example.messengerapp.Fragments.SearchFragment
 import com.example.messengerapp.Fragments.SettingsFragment
 import com.example.messengerapp.ModelClasses.Users
 import com.google.android.material.tabs.TabLayout
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
 
         viewPagerAdapter.addFragment(ChatsFragment(),"Chats")
-        viewPagerAdapter.addFragment(SeachFragment(),"Search")
+        viewPagerAdapter.addFragment(SearchFragment(),"Search")
         viewPagerAdapter.addFragment(SettingsFragment(),"Settings")
 
         viewPager.adapter = viewPagerAdapter
