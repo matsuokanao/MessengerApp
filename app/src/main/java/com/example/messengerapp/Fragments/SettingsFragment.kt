@@ -3,6 +3,8 @@ package com.example.messengerapp.Fragments
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +12,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import com.example.messengerapp.ModelClasses.Users
 import com.example.messengerapp.R
@@ -102,7 +105,82 @@ class SettingsFragment : Fragment() {
 
     private fun setSocialLinks() {
         val builder: AlertDialog.Builder =
-            AlertDialog.Builder(context!!,R.style.Theme_AppCompat_DayNight_Dialog_Alert)
+            AlertDialog.Builder(context, R.style.Theme_AppCompat_DayNight_Dialog_Alert)
+
+        if (socialChecker == "website"){
+
+            builder.setTitle(("URLを入力して下さい。"))
+
+        } else {
+
+            builder.setTitle(("名前を入力して下さい。"))
+
+        }
+
+        val editText = EditText(context)
+
+        if (socialChecker == "website"){
+
+            editText.hint = "www.google.com"
+
+        } else {
+
+            editText.hint = "matsuokanao"
+
+        }
+        builder.setView(editText)
+
+        builder.setPositiveButton("Create", DialogInterface.OnClickListener{
+            dialog, which ->
+
+            val str = editText.text.toString()
+
+            if (str == ""){
+                Toast.makeText(context, "項目を入力して下さい。",Toast.LENGTH_LONG).show()
+            } else {
+                saveSocialLink(str)
+            }
+        })
+
+        builder.setNegativeButton("Cancel", DialogInterface.OnClickListener{
+
+                dialog, which ->
+            dialog.cancel()
+        })
+
+        builder.show()
+
+    }
+
+    private fun saveSocialLink(str: String) {
+
+        val  mapSocial = HashMap<String,Any>()
+
+        when(socialChecker){
+
+            "facebook" -> {
+
+                mapSocial["facebook"] = "https://m.facebook.com/$str"
+            }
+
+            "instagram" -> {
+
+                mapSocial["instagram"] = "https://m.instagram.com/$str"
+            }
+
+            "website" -> {
+
+                mapSocial["website"] = "https://$str"
+            }
+        }
+
+        usersRefrence!!.updateChildren(mapSocial).addOnCompleteListener {
+            task ->
+            if (task.isSuccessful){
+                Toast.makeText(context, "アップデートが完了しました。",Toast.LENGTH_LONG).show()
+            }
+        }
+
     }
 
     private fun PickImage() {
@@ -119,7 +197,7 @@ class SettingsFragment : Fragment() {
         if (requestCode == RequesteCode && resultCode == Activity.RESULT_OK && data!!.data != null){
 
             imageeUri = data.data
-            Toast.makeText(context, "uploading...",Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "アップロード中",Toast.LENGTH_LONG).show()
             uploadImageToDatabase()
 
         }
