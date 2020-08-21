@@ -14,12 +14,12 @@
         >
     </EditText>
 
-    <view class="androidx.appcompat.app.AlertController$RecycleListView"
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchList"
         android:layout_below="@+id/searchUsersET"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-    </view>
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>
