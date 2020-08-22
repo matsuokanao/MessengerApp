@@ -204,6 +204,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun uploadImageToDatabase() {
+
         val progressBar = ProgressDialog(context)
         progressBar.setMessage("画像アップロード中です。しばらくお待ちください。")
         progressBar.show()

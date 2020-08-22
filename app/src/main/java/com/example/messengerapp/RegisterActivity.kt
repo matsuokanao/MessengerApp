@@ -47,12 +47,15 @@ class RegisterActivity : AppCompatActivity() {
         if(username == ""){
             Toast.makeText(this@RegisterActivity,"名前を入力して下さい。"
                 ,Toast.LENGTH_LONG).show()
+
         } else if(email == ""){
             Toast.makeText(this@RegisterActivity,"メールアドレスを入力して下さい。"
                 ,Toast.LENGTH_LONG).show()
+
         } else if(password == ""){
             Toast.makeText(this@RegisterActivity,"パスワードを入力して下さい。"
                 ,Toast.LENGTH_LONG).show()
+
         } else {
             mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener{
                 task ->
@@ -74,17 +77,22 @@ class RegisterActivity : AppCompatActivity() {
 
                     refUsers.updateChildren(userHashMap)
                         .addOnCompleteListener { task ->
+
                             if (task.isSuccessful){
+
                                 val intent = Intent(this@RegisterActivity,MainActivity::class.java)
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                                 startActivity(intent)
                                 finish()
+
                             }
                         }
 
                 } else {
+
                     Toast.makeText(this@RegisterActivity,"エラーが発生しました。"
                         ,Toast.LENGTH_LONG).show()
+
                 }
             }
         }
