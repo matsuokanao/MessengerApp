@@ -7,6 +7,10 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.messengerapp.AdapterClasses.ChatsAdapter
+import com.example.messengerapp.ModelClasses.Chat
 import com.example.messengerapp.ModelClasses.Users
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
@@ -22,11 +26,16 @@ import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_message_chat.*
+import retrofit2.http.Url
 
 class MessageChatActivity : AppCompatActivity() {
 
     var userIdVisit: String = ""
     var firebaseUser: FirebaseUser? = null
+    var chatsAdapter: ChatsAdapter? = null
+    var mChatList: List<Chat>? = null
+
+    lateinit var recycler_view_chats: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +44,12 @@ class MessageChatActivity : AppCompatActivity() {
         intent = intent
         userIdVisit = intent.getStringExtra("visit_id")
         firebaseUser = FirebaseAuth.getInstance().currentUser
+
+        recycler_view_chats = findViewById(R.id.recycler_view_chats)
+        recycler_view_chats.setHasFixedSize(true)
+        var linearLayoutManager = LinearLayoutManager(applicationContext)
+        linearLayoutManager.stackFromEnd = true
+        recycler_view_chats.layoutManager = linearLayoutManager
 
         val reference = FirebaseDatabase.getInstance().reference
             .child("Users").child(userIdVisit)
@@ -47,6 +62,8 @@ class MessageChatActivity : AppCompatActivity() {
 
                 username_mchat.text = user!!.getUserName()
                 Picasso.get().load(user.getProfile()).into(profile_image_mchat)
+
+                retrieveMessages(firebaseUser!!.uid, userIdVisit,user.getProfile())
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -77,6 +94,7 @@ class MessageChatActivity : AppCompatActivity() {
             startActivityForResult(Intent.createChooser(intent,"Pick Image"),438)
         }
     }
+
 
     private fun sendMessageToUser(senderId: String, receiverId: String?, message: String) {
         val reference = FirebaseDatabase.getInstance().reference
@@ -165,7 +183,7 @@ class MessageChatActivity : AppCompatActivity() {
 
                     val messageHashMap = HashMap<String, Any?>()
                     messageHashMap["sender"] = firebaseUser!!.uid
-                    messageHashMap["message"] = "sent you an image"
+                    messageHashMap["message"] = "sent you an image."
                     messageHashMap["receiver"] = userIdVisit
                     messageHashMap["isseen"] = false
                     messageHashMap["url"] = url
@@ -175,11 +193,36 @@ class MessageChatActivity : AppCompatActivity() {
 
                     progressBar.dismiss()
                 }
-
-
             }
-
         }
     }
 
+    private fun retrieveMessages(senderId: String, receiverId: String?, receiverImageUrl: String?) {
+
+        mChatList = ArrayList()
+        val reference = FirebaseDatabase.getInstance().reference.child("Chats")
+
+        reference.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot) {
+
+                (mChatList as ArrayList<Chat>).clear()
+                for (snapshot in p0.children){
+
+                    val chat = snapshot.getValue(Chat::class.java)
+
+                    if (chat!!.getReceiver().equals(senderId) && chat.getSender().equals(receiverId)
+                                || chat.getReceiver().equals(receiverId) && chat.getSender().equals(senderId)){
+                        (mChatList as ArrayList<Chat>).add(chat)
+                    }
+
+                    chatsAdapter = ChatsAdapter(this@MessageChatActivity, (mChatList as ArrayList<Chat>), receiverImageUrl!!)
+                    recycler_view_chats.adapter = chatsAdapter
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
 }
