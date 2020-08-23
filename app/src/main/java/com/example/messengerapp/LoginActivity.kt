@@ -44,22 +44,31 @@ class LoginActivity : AppCompatActivity() {
         val password: String = password_login.text.toString()
 
         if(email == ""){
+
             Toast.makeText(this@LoginActivity,"メールアドレスを入力して下さい。"
                 , Toast.LENGTH_LONG).show()
+
         } else if(password == ""){
+
             Toast.makeText(this@LoginActivity,"パスワードを入力して下さい。"
                 , Toast.LENGTH_LONG).show()
+
         } else {
+
             mAuth.signInWithEmailAndPassword(email,password)
             .addOnCompleteListener{ task ->
                 if (task.isSuccessful){
+
                     val intent = Intent(this@LoginActivity,MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     finish()
+
                 } else {
+
                     Toast.makeText(this@LoginActivity,"エラーが発生しました。"
                         ,Toast.LENGTH_LONG).show()
+
                 }
             }
         }

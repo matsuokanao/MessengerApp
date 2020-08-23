@@ -73,9 +73,9 @@ class ChatsAdapter (
                 Picasso.get().load(chat.getUrl()).into(holder.right_image_view)
             }
 
-            //image message left side
-            else if (!chat.getSender().equals(firebaseUser!!.uid))
-            {
+            //image message left side !つけ忘れ
+            else if (!chat.getSender().equals(firebaseUser!!.uid)){
+
                 holder.show_text_message!!.visibility = View.GONE
                 holder.left_image_view!!.visibility = View.VISIBLE
                 Picasso.get().load(chat.getUrl()).into(holder.left_image_view)
@@ -87,39 +87,43 @@ class ChatsAdapter (
             holder.show_text_message!!.text = chat.getMessage()
         }
 
-
         //sent and seen message
-        if (position == mChatList.size-1)
-        {
-            if (chat.isIsSeen())
-            {
+        if (position == mChatList.size-1){
+
+            if (chat.isIsSeen()){
+
                 holder.text_seen!!.text = "Seen"
 
-                if (chat.getMessage().equals("sent you an image.") && !chat.getUrl().equals(""))
-                {
+                if (chat.getMessage().equals("sent you an image.") && !chat.getUrl().equals("")){
+
                     val lp: RelativeLayout.LayoutParams? = holder.text_seen!!.layoutParams as RelativeLayout.LayoutParams?
-                    lp!!.setMargins(0, 245, 10, 0)
+                    lp!!.setMargins(0,245,10,0)
                     holder.text_seen!!.layoutParams = lp
+
                 }
-            }else{
+            } else {
+
                 holder.text_seen!!.text = "Sent"
 
-                if (chat.getMessage().equals("sent you an image.") && !chat.getUrl().equals(""))
-                {
+                if (chat.getMessage().equals("sent you an image.") && !chat.getUrl().equals("")){
+
                     val lp: RelativeLayout.LayoutParams? = holder.text_seen!!.layoutParams as RelativeLayout.LayoutParams?
-                    lp!!.setMargins(0, 245, 10, 0)
+                    lp!!.setMargins(0,245,10,0)
                     holder.text_seen!!.layoutParams = lp
+
                 }
             }
-        }
-        else
-        {
+        } else {
+
             holder.text_seen!!.visibility = View.GONE
         }
+
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-    {
+
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+
         var profile_image: CircleImageView? = null
         var show_text_message: TextView? = null
         var left_image_view: ImageView? = null
@@ -135,14 +139,11 @@ class ChatsAdapter (
         }
     }
 
-    override fun getItemViewType(position: Int): Int
-    {
-        return if (mChatList[position].getSender().equals(firebaseUser!!.uid))
-        {
+    override fun getItemViewType(position: Int): Int {
+
+        return if (mChatList[position].getSender().equals(firebaseUser!!.uid)){
             1
-        }
-        else
-        {
+        } else {
             0
         }
     }
