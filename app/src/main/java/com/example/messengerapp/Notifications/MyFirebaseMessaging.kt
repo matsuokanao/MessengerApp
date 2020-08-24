@@ -33,7 +33,7 @@ class MyFirebaseMessaging : FirebaseMessagingService(){
 
         if (firebaseUser != null && sented == firebaseUser.uid){
 
-            if (currentOnlineUser != null){
+            if (currentOnlineUser != user){
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
 
