@@ -51,14 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         val tabLayout: TabLayout = findViewById(R.id.tab_layout)
         val viewPager: ViewPager = findViewById(R.id.view_page)
-  /*      val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
 
-        viewPagerAdapter.addFragment(ChatsFragment(),"Chats")
-        viewPagerAdapter.addFragment(SearchFragment(),"Search")
-        viewPagerAdapter.addFragment(SettingsFragment(),"Settings")
-
-        viewPager.adapter = viewPagerAdapter
-        tabLayout.setupWithViewPager(viewPager)*/
         val ref = FirebaseDatabase.getInstance().reference.child("Chats")
         ref!!.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
@@ -109,14 +102,17 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                TODO("Not yet implemented")
+                //エラー表示
             }
         })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+
         // Inflate the menu; this adds items to the action bar if it is present.
+
         menuInflater.inflate(R.menu.menu_main, menu)
+
         return true
     }
 
@@ -125,7 +121,9 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
          when (item.itemId) {
+
             R.id.action_logout -> {
+
                 FirebaseAuth.getInstance().signOut()
 
                 val intent = Intent(this@MainActivity,WelcomeActivity::class.java)
@@ -140,7 +138,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     internal  class ViewPagerAdapter(fragmentManager: FragmentManager):
+
             FragmentPagerAdapter(fragmentManager)
+
     {
         private val fragments: ArrayList<Fragment>
         private val titles: ArrayList<String>

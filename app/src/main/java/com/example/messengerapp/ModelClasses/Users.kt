@@ -10,6 +10,8 @@ class Users {
     private var facebook: String = ""
     private var instagram: String = ""
     private var website: String = ""
+    private var leader: String = ""
+    private var introduction: String = ""
 
     constructor()
 
@@ -23,7 +25,9 @@ class Users {
         search: String,
         facebook: String,
         instagram: String,
-        website: String
+        website: String,
+        leader: String,
+        introduction: String
     ) {
         this.uid = uid
         this.username = username
@@ -34,6 +38,8 @@ class Users {
         this.facebook = facebook
         this.instagram = instagram
         this.website = website
+        this.leader = leader
+        this.introduction = introduction
     }
 
     fun getUID(): String?{
@@ -97,5 +103,19 @@ class Users {
     }
     fun setWebsite(website: String){
         this.website = website
+    }
+
+    fun getLeader(): String?{
+        return leader
+    }
+    fun setLeader(leader: String){
+        this.leader = uid
+    }
+
+    fun getIntroduction(): String?{
+        return introduction
+    }
+    fun setIntroduction(introduction: String){
+        this.introduction = introduction
     }
 }
