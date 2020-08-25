@@ -27,8 +27,11 @@ class RegisterActivity : AppCompatActivity() {
         //アプリバーのアップボタンを有効に
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener {
+
             val intent = Intent(this@RegisterActivity,WelcomeActivity::class.java)
+
             startActivity(intent)
+
             finish()
         }
 
