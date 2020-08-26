@@ -66,6 +66,7 @@ class VisitUserProfileActivity : AppCompatActivity() {
 
         }
 
+
         send_msg_btn.setOnClickListener {
 
             val intent = Intent(this@VisitUserProfileActivity, MessageChatActivity::class.java)

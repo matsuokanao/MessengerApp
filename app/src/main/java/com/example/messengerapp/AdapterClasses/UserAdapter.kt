@@ -88,12 +88,12 @@ class UserAdapter(
 
         holder.itemView.setOnClickListener{
             val options = arrayOf<CharSequence>(
-                "Send Message",
-                "Visit Profile"
+                "メッセージを送る",
+                "プロフィールを見る"
             )
 
             val builder: AlertDialog.Builder = AlertDialog.Builder(mContext)
-            builder.setTitle("What do you want?")
+            builder.setTitle("何がしたいですか?")
 
             builder.setItems(options, DialogInterface.OnClickListener{ dialog, position ->
                 //メッセージ送信

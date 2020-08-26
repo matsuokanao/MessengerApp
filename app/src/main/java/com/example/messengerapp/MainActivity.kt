@@ -71,19 +71,18 @@ class MainActivity : AppCompatActivity() {
 
                 if (countUnreadMessages == 0){
 
-                    viewPagerAdapter.addFragment(ChatsFragment(),"Chats")
+                    viewPagerAdapter.addFragment(ChatsFragment(),"トーク画面")
 
                 } else {
 
-                    viewPagerAdapter.addFragment(ChatsFragment(),"($countUnreadMessages)Chats")
+                    viewPagerAdapter.addFragment(ChatsFragment(),"($countUnreadMessages)トーク")
                 }
-                viewPagerAdapter.addFragment(SearchFragment(),"Search")
-                viewPagerAdapter.addFragment(SettingsFragment(),"Settings")
+                viewPagerAdapter.addFragment(SearchFragment(),"コーチを探す")
+                viewPagerAdapter.addFragment(SettingsFragment(),"ユーザー設定")
                 viewPager.adapter = viewPagerAdapter
                 tabLayout.setupWithViewPager(viewPager)
 
             }
-
             override fun onCancelled(error: DatabaseError) {
 
             }
@@ -97,6 +96,8 @@ class MainActivity : AppCompatActivity() {
                     val user: Users? = p0.getValue(Users::class.java)
 
                     user_name.text = user!!.getUserName()
+
+                    //getProfileの情報をprofile_imageに設定
                     Picasso.get().load(user.getProfile()).placeholder(R.drawable.profile).into(profile_image)
                 }
             }

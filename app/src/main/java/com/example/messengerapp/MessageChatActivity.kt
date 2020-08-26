@@ -41,6 +41,8 @@ class MessageChatActivity : AppCompatActivity() {
     lateinit var recycler_view_chats: RecyclerView
 
     var notify = false
+
+    //APIService.javaの処理
     var apiService: APIService? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -161,6 +163,10 @@ class MessageChatActivity : AppCompatActivity() {
 
                         override fun onCancelled(error: DatabaseError) {
 
+
+                            Toast.makeText(this@MessageChatActivity,"エラーが発生しました。"
+                                ,Toast.LENGTH_LONG).show()
+
                         }
                     })
                 }
@@ -184,10 +190,14 @@ class MessageChatActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
 
+                Toast.makeText(this@MessageChatActivity,"エラーが発生しました。"
+                    ,Toast.LENGTH_LONG).show()
+
             }
         })
     }
 
+    //メッセージ通知送信処理
     private fun sendNotification(receiverId: String?, userName: String?, message: String) {
 
         val ref = FirebaseDatabase.getInstance().reference.child("Tokens")
@@ -206,12 +216,13 @@ class MessageChatActivity : AppCompatActivity() {
                         firebaseUser!!.uid,
                         R.mipmap.ic_launcher,
                         "$userName:$message",
-                        "New Message",
+                        "新しいメッセージ",
                         userIdVisit
                     )
 
                     val sender = Sender(data!!,token!!.getToken().toString())
 
+                    //指定されたtokenに通知を送信
                     apiService!!.sendNotification(sender)
                         .enqueue(object : Callback<MyResponse>{
 
@@ -224,7 +235,7 @@ class MessageChatActivity : AppCompatActivity() {
 
                                     if (response.body()!!.success !== 1){
 
-                                        Toast.makeText(this@MessageChatActivity,"Failed Nothing happen",Toast.LENGTH_LONG).show()
+                                        Toast.makeText(this@MessageChatActivity,"処理に失敗しました。",Toast.LENGTH_LONG).show()
 
                                     }
                                 }
@@ -239,6 +250,9 @@ class MessageChatActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
+
+                Toast.makeText(this@MessageChatActivity,"エラーが発生しました。"
+                    ,Toast.LENGTH_LONG).show()
 
             }
         })

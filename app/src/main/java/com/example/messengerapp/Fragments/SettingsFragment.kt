@@ -40,9 +40,12 @@ class SettingsFragment : Fragment() {
     private var socialChecker: String? = ""
 
     override fun onCreateView(
+
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View? {
+
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
 
@@ -51,7 +54,9 @@ class SettingsFragment : Fragment() {
         storgeRef = FirebaseStorage.getInstance().reference.child("User Images")
 
         usersRefrence!!.addValueEventListener(object : ValueEventListener{
+
             override fun onDataChange(p0: DataSnapshot) {
+
                 if (p0.exists()){
 
                     val user: Users? = p0.getValue(Users::class.java)
@@ -100,6 +105,20 @@ class SettingsFragment : Fragment() {
             setSocialLinks()
 
         }
+
+        view.set_leader.setOnClickListener {
+            socialChecker = "leader"
+            setSocialLinks()
+
+        }
+
+        view.username_settings.setOnClickListener {
+            socialChecker = "username"
+            setSocialLinks()
+
+        }
+
+
         return view
     }
 
@@ -107,49 +126,63 @@ class SettingsFragment : Fragment() {
         val builder: AlertDialog.Builder =
             AlertDialog.Builder(context, R.style.Theme_AppCompat_DayNight_Dialog_Alert)
 
-        if (socialChecker == "website"){
+        if (socialChecker == "leader") {
 
-            builder.setTitle(("URLを入力して下さい。"))
-
-        } else {
-
-            builder.setTitle(("名前を入力して下さい。"))
+            builder.setTitle("コーチ登録をしますか？「はい」または「いいえ」でお答え下さい。")
 
         }
+            else if (socialChecker == "website") {
 
-        val editText = EditText(context)
+                builder.setTitle("URLを入力して下さい。")
 
-        if (socialChecker == "website"){
 
-            editText.hint = "www.google.com"
-
-        } else {
-
-            editText.hint = "matsuokanao"
-
-        }
-        builder.setView(editText)
-
-        builder.setPositiveButton("Create", DialogInterface.OnClickListener{
-            dialog, which ->
-
-            val str = editText.text.toString()
-
-            if (str == ""){
-                Toast.makeText(context, "項目を入力して下さい。",Toast.LENGTH_LONG).show()
             } else {
-                saveSocialLink(str)
+
+                builder.setTitle("ユーザー名を入力して下さい。")
+
             }
-        })
 
-        builder.setNegativeButton("Cancel", DialogInterface.OnClickListener{
+            val editText = EditText(context)
 
-                dialog, which ->
-            dialog.cancel()
-        })
+        if (socialChecker == "leader") {
 
-        builder.show()
+            editText.hint = "はい　いいえ"
 
+        }
+        else if (socialChecker == "website") {
+
+                editText.hint = "www.google.com"
+
+            } else {
+
+                editText.hint = "ユーザー名を入力して下さい"
+
+            }
+
+            builder.setView(editText)
+
+            builder.setPositiveButton("決定", DialogInterface.OnClickListener {
+
+                    dialog, which ->
+
+                val str = editText.text.toString()
+
+                if (str == "") {
+                    Toast.makeText(context, "項目を入力して下さい。", Toast.LENGTH_LONG).show()
+                } else {
+                    saveSocialLink(str)
+                }
+            })
+
+            builder.setNegativeButton("キャンセル", DialogInterface.OnClickListener {
+
+                    dialog, which ->
+
+                dialog.cancel()
+
+            })
+
+            builder.show()
     }
 
     private fun saveSocialLink(str: String) {
@@ -172,6 +205,19 @@ class SettingsFragment : Fragment() {
 
                 mapSocial["website"] = "https://$str"
             }
+
+            "leader" -> {
+
+                mapSocial["leader"] = "$str"
+            }
+
+
+            "username" -> {
+
+                mapSocial["username"] = "$str"
+                mapSocial["search"] = "$str"
+            }
+
         }
 
         usersRefrence!!.updateChildren(mapSocial).addOnCompleteListener {
@@ -224,6 +270,7 @@ class SettingsFragment : Fragment() {
                 return@Continuation fileRef.downloadUrl
             }).addOnCompleteListener { task ->
                 if (task.isSuccessful){
+
                     val downloadUrl = task.result
                     val url = downloadUrl.toString()
 

@@ -117,11 +117,11 @@ class ChatsAdapter (
 
                 holder.left_image_view!!.setOnClickListener {
                     val options = arrayOf<CharSequence>(
-                        "View Full Image",
-                        "Cancel"
+                        "写真を見る",
+                        "キャンセル"
                     )
                     var builder: AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
-                    builder.setTitle("What do you want?")
+                    builder.setTitle("何がしたいですか?")
 
                     builder.setItems(options,DialogInterface.OnClickListener{
                             dialog, which ->
@@ -146,11 +146,11 @@ class ChatsAdapter (
 
                 holder.show_text_message!!.setOnClickListener {
                     val options = arrayOf<CharSequence>(
-                        "Delete Message",
-                        "Cancel"
+                        "メッセージを削除する",
+                        "キャンセル"
                     )
                     var builder: AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
-                    builder.setTitle("What do you want?")
+                    builder.setTitle("何がしたいですか?")
 
                     builder.setItems(options,DialogInterface.OnClickListener{
                             dialog, which ->
@@ -170,7 +170,7 @@ class ChatsAdapter (
 
             if (chat.isIsSeen()){
 
-                holder.text_seen!!.text = "Seen"
+                holder.text_seen!!.text = "既読"
 
                 if (chat.getMessage().equals("sent you an image.") && !chat.getUrl().equals("")){
 
@@ -181,7 +181,7 @@ class ChatsAdapter (
                 }
             } else {
 
-                holder.text_seen!!.text = "Sent"
+                holder.text_seen!!.text = "送信"
 
                 if (chat.getMessage().equals("sent you an image.") && !chat.getUrl().equals("")){
 
@@ -233,11 +233,11 @@ class ChatsAdapter (
              .addOnCompleteListener { task ->
                  if (task.isSuccessful){
 
-                     Toast.makeText(holder.itemView.context,"Deleted.",Toast.LENGTH_SHORT).show()
+                     Toast.makeText(holder.itemView.context,"削除しました。",Toast.LENGTH_SHORT).show()
 
                  } else {
 
-                     Toast.makeText(holder.itemView.context,"Failed, Not Deleted.",Toast.LENGTH_SHORT).show()
+                     Toast.makeText(holder.itemView.context,"削除できません。",Toast.LENGTH_SHORT).show()
                  }
              }
     }

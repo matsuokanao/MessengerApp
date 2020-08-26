@@ -109,7 +109,7 @@ class Users {
         return leader
     }
     fun setLeader(leader: String){
-        this.leader = uid
+        this.leader = leader
     }
 
     fun getIntroduction(): String?{

@@ -77,7 +77,7 @@ class RegisterActivity : AppCompatActivity() {
                     userHashMap["facebook"] = "https://m.facebook.com"
                     userHashMap["instagram"] = "https://m.instagram.com"
                     userHashMap["website"] = "https://m.google.com"
-                    userHashMap["leader"] = "No"
+                    userHashMap["leader"] = "いいえ"
                     userHashMap["introduction"] = "紹介文を入力"
 
                     refUsers.updateChildren(userHashMap)

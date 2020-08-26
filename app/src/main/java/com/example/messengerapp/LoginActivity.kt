@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
 
                 } else {
 
-                    Toast.makeText(this@LoginActivity,"エラーが発生しました。"
+                    Toast.makeText(this@LoginActivity,"エラーが発生しました。メールアドレスとパスワードをご確認下さい。"
                         ,Toast.LENGTH_LONG).show()
 
                 }
