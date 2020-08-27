@@ -64,6 +64,7 @@ class SettingsFragment : Fragment() {
                     if (context!=null){
 
                         view.username_settings.text = user!!.getUserName()
+                        view.set_introduction.text = user!!.getIntroduction()
                         Picasso.get().load(user.getProfile()).into(view.profile_image_settings)
                         Picasso.get().load(user.getCover()).into(view.cover_image_setting)
 
@@ -118,6 +119,12 @@ class SettingsFragment : Fragment() {
 
         }
 
+        view.set_introduction.setOnClickListener {
+            socialChecker = "introduction"
+            setSocialLinks()
+
+        }
+
 
         return view
     }
@@ -130,17 +137,21 @@ class SettingsFragment : Fragment() {
 
             builder.setTitle("コーチ登録をしますか？「はい」または「いいえ」でお答え下さい。")
 
+        }   else if (socialChecker == "website") {
+
+            builder.setTitle("URLを入力して下さい。")
+
+
+        } else if (socialChecker == "introduction") {
+
+            builder.setTitle("経歴や紹介文をご記入下さい")
+
+
+        }   else {
+
+            builder.setTitle("ユーザー名を入力して下さい。")
+
         }
-            else if (socialChecker == "website") {
-
-                builder.setTitle("URLを入力して下さい。")
-
-
-            } else {
-
-                builder.setTitle("ユーザー名を入力して下さい。")
-
-            }
 
             val editText = EditText(context)
 
@@ -148,16 +159,18 @@ class SettingsFragment : Fragment() {
 
             editText.hint = "はい　いいえ"
 
+        } else if (socialChecker == "website") {
+
+            editText.hint = "www.google.com"
+
+        } else if (socialChecker == "introduction") {
+
+            editText.hint = "紹介文"
+
+        } else {
+
+            editText.hint = "ユーザー名を入力して下さい"
         }
-        else if (socialChecker == "website") {
-
-                editText.hint = "www.google.com"
-
-            } else {
-
-                editText.hint = "ユーザー名を入力して下さい"
-
-            }
 
             builder.setView(editText)
 
@@ -216,6 +229,12 @@ class SettingsFragment : Fragment() {
 
                 mapSocial["username"] = "$str"
                 mapSocial["search"] = "$str"
+
+            }
+            "introduction" -> {
+
+                mapSocial["introduction"] = "$str"
+
             }
 
         }
@@ -223,7 +242,7 @@ class SettingsFragment : Fragment() {
         usersRefrence!!.updateChildren(mapSocial).addOnCompleteListener {
             task ->
             if (task.isSuccessful){
-                Toast.makeText(context, "アップデートが完了しました。",Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "更新が完了しました。",Toast.LENGTH_LONG).show()
             }
         }
 

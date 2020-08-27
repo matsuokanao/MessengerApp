@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     tools:context=".VisitUserProfileActivity">
 
     <androidx.cardview.widget.CardView
@@ -16,7 +15,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             >
             <ImageView
                 android:id="@+id/cover_display"
@@ -33,7 +31,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="140dp"
+                android:layout_marginTop="50dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/profile"
                 >
@@ -65,7 +63,6 @@
         android:layout_below="@+id/cv1"
         android:gravity="center"
         android:background="@color/colorProfile"
-        android:layout_marginTop="40dp"
         android:orientation="horizontal"
         android:padding="6dp"
         >
@@ -119,5 +116,29 @@
         >
 
     </Button>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/send_msg_btn">
+
+        <TextView
+            android:id="@+id/introduction_display"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/send_msg_btn"
+            android:layout_marginTop="20dp"
+            android:text="内容"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
+
+        </TextView>
+    </ScrollView>
+
+
 
 </RelativeLayout>

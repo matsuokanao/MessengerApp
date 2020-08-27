@@ -34,6 +34,7 @@ class VisitUserProfileActivity : AppCompatActivity() {
                 if (p0.exists()){
                     user = p0.getValue(Users::class.java)
                     username_display.text = user!!.getUserName()
+                    introduction_display.text = user!!.getIntroduction()
                     Picasso.get().load(user!!.getProfile()).into(profile_display)
                     Picasso.get().load(user!!.getCover()).into(cover_display)
                 }
