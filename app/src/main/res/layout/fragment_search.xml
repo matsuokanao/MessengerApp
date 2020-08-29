@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
-        android:hint="ユーザーを探しましょう"
+        android:hint="種目を入力して下さい。"
         >
     </EditText>
 

@@ -125,6 +125,12 @@ class SettingsFragment : Fragment() {
 
         }
 
+        view.set_search.setOnClickListener {
+            socialChecker = "search"
+            setSocialLinks()
+
+        }
+
 
         return view
     }
@@ -141,13 +147,15 @@ class SettingsFragment : Fragment() {
 
             builder.setTitle("URLを入力して下さい。")
 
-
         } else if (socialChecker == "introduction") {
 
-            builder.setTitle("経歴や紹介文をご記入下さい")
+            builder.setTitle("経歴や紹介文をご記入下さい。")
 
+        } else if (socialChecker == "search") {
 
-        }   else {
+            builder.setTitle("検索種目を入力して下さい。(短距離　ハードル　跳躍　投擲)")
+
+        }  else {
 
             builder.setTitle("ユーザー名を入力して下さい。")
 
@@ -166,6 +174,10 @@ class SettingsFragment : Fragment() {
         } else if (socialChecker == "introduction") {
 
             editText.hint = "紹介文"
+
+        }else if (socialChecker == "search") {
+
+            editText.hint = "短距離　ハードル　跳躍　長距離　投擲"
 
         } else {
 
@@ -234,6 +246,11 @@ class SettingsFragment : Fragment() {
             "introduction" -> {
 
                 mapSocial["introduction"] = "$str"
+
+            }
+            "search" -> {
+
+                mapSocial["search"] = "$str"
 
             }
 
