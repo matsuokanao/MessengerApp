@@ -163,8 +163,8 @@ class UserAdapter(
                 }
                 when(lastMsg)
                 {
-                    "defaultMsg" -> lastMessageTxt.text = "No Message"
-                    "sent you an image." -> lastMessageTxt.text = "image sent."
+                    "defaultMsg" -> lastMessageTxt.text = "メッセージがありません。"
+                    "sent you an image." -> lastMessageTxt.text = "画像を送信しました。"
                     else -> lastMessageTxt.text = lastMsg
                 }
                 lastMsg = "defaultMsg"

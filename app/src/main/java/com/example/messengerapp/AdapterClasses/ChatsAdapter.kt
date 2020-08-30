@@ -81,12 +81,12 @@ class ChatsAdapter (
 
                 holder.right_image_view!!.setOnClickListener {
                     val options = arrayOf<CharSequence>(
-                        "View Full Image",
-                        "Delete Image",
-                        "Cancel"
+                        "画像を表示する",
+                        "写真を削除する",
+                        "キャンセル"
                     )
                     var builder: AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
-                    builder.setTitle("What do you want?")
+                    builder.setTitle("何をしますか？")
 
                     builder.setItems(options,DialogInterface.OnClickListener{
                         dialog, which ->
@@ -121,7 +121,7 @@ class ChatsAdapter (
                         "キャンセル"
                     )
                     var builder: AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
-                    builder.setTitle("何がしたいですか?")
+                    builder.setTitle("何をしますか?")
 
                     builder.setItems(options,DialogInterface.OnClickListener{
                             dialog, which ->
@@ -150,7 +150,7 @@ class ChatsAdapter (
                         "キャンセル"
                     )
                     var builder: AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
-                    builder.setTitle("何がしたいですか?")
+                    builder.setTitle("何をしますか?")
 
                     builder.setItems(options,DialogInterface.OnClickListener{
                             dialog, which ->

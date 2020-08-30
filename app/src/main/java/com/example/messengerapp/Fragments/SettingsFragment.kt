@@ -240,7 +240,6 @@ class SettingsFragment : Fragment() {
             "username" -> {
 
                 mapSocial["username"] = "$str"
-                mapSocial["search"] = "$str"
 
             }
             "introduction" -> {
