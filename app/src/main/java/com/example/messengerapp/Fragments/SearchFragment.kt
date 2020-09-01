@@ -72,39 +72,6 @@ class SearchFragment : Fragment() {
         return view
     }
 
-//    ユーザー　全件取得処理
-//    private fun retrieveAllUsers() {
-//
-//        var firebaseUserID = FirebaseAuth.getInstance().currentUser!!.uid
-//        val refUsers = FirebaseDatabase.getInstance().reference.child("Users")
-//
-//        refUsers.addValueEventListener(object : ValueEventListener{
-//
-//            //変更の読み取りとリッスン
-//            override fun onDataChange(p0: DataSnapshot) {
-//
-//                    if (searchEditText!!.text.toString() == "" ) {
-//
-//                        for (snapshot in p0.children) {
-//
-//                            val user: Users? = snapshot.getValue(Users::class.java)
-//
-//                            if (!(user!!.getUID()).equals(firebaseUserID)) {
-//                                    (mUsers as ArrayList<Users>).add(user)
-//
-//                            }
-//                        }
-//                        userAdapter = UserAdapter(context!!, mUsers!!, false)
-//                        recyclerView!!.adapter = userAdapter
-//                             }
-//                       }
-//
-//                override fun onCancelled(error: DatabaseError) {
-//            }
-//        })
-//    }
-
-
     private fun searchForUsers(str: String){
 
 

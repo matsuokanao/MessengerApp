@@ -50,18 +50,19 @@ class SettingsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        usersRefrence = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser!!.uid)
+        usersRefrence =
+            FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser!!.uid)
         storgeRef = FirebaseStorage.getInstance().reference.child("User Images")
 
-        usersRefrence!!.addValueEventListener(object : ValueEventListener{
+        usersRefrence!!.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(p0: DataSnapshot) {
 
-                if (p0.exists()){
+                if (p0.exists()) {
 
                     val user: Users? = p0.getValue(Users::class.java)
 
-                    if (context!=null){
+                    if (context != null) {
 
                         view.username_settings.text = user!!.getUserName()
                         view.set_introduction.text = user!!.getIntroduction()
@@ -143,7 +144,7 @@ class SettingsFragment : Fragment() {
 
             builder.setTitle("コーチ登録をしますか？「はい」または「いいえ」でお答え下さい。")
 
-        }   else if (socialChecker == "website") {
+        } else if (socialChecker == "website") {
 
             builder.setTitle("URLを入力して下さい。")
 
@@ -155,13 +156,13 @@ class SettingsFragment : Fragment() {
 
             builder.setTitle("検索種目を入力して下さい。(短距離　ハードル　跳躍　投擲)")
 
-        }  else {
+        } else {
 
             builder.setTitle("ユーザー名を入力して下さい。")
 
         }
 
-            val editText = EditText(context)
+        val editText = EditText(context)
 
         if (socialChecker == "leader") {
 
@@ -175,7 +176,7 @@ class SettingsFragment : Fragment() {
 
             editText.hint = "紹介文"
 
-        }else if (socialChecker == "search") {
+        } else if (socialChecker == "search") {
 
             editText.hint = "短距離　ハードル　跳躍　長距離　投擲"
 
@@ -184,37 +185,37 @@ class SettingsFragment : Fragment() {
             editText.hint = "ユーザー名を入力して下さい"
         }
 
-            builder.setView(editText)
+        builder.setView(editText)
 
-            builder.setPositiveButton("決定", DialogInterface.OnClickListener {
+        builder.setPositiveButton("決定", DialogInterface.OnClickListener {
 
-                    dialog, which ->
+                dialog, which ->
 
-                val str = editText.text.toString()
+            val str = editText.text.toString()
 
-                if (str == "") {
-                    Toast.makeText(context, "項目を入力して下さい。", Toast.LENGTH_LONG).show()
-                } else {
-                    saveSocialLink(str)
-                }
-            })
+            if (str == "") {
+                Toast.makeText(context, "項目を入力して下さい。", Toast.LENGTH_LONG).show()
+            } else {
+                saveSocialLink(str)
+            }
+        })
 
-            builder.setNegativeButton("キャンセル", DialogInterface.OnClickListener {
+        builder.setNegativeButton("キャンセル", DialogInterface.OnClickListener {
 
-                    dialog, which ->
+                dialog, which ->
 
-                dialog.cancel()
+            dialog.cancel()
 
-            })
+        })
 
-            builder.show()
+        builder.show()
     }
 
     private fun saveSocialLink(str: String) {
 
-        val  mapSocial = HashMap<String,Any>()
+        val mapSocial = HashMap<String, Any>()
 
-        when(socialChecker){
+        when (socialChecker) {
 
             "facebook" -> {
 
@@ -255,10 +256,9 @@ class SettingsFragment : Fragment() {
 
         }
 
-        usersRefrence!!.updateChildren(mapSocial).addOnCompleteListener {
-            task ->
-            if (task.isSuccessful){
-                Toast.makeText(context, "更新が完了しました。",Toast.LENGTH_LONG).show()
+        usersRefrence!!.updateChildren(mapSocial).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(context, "更新が完了しました。", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -268,17 +268,17 @@ class SettingsFragment : Fragment() {
         val intent = Intent()
         intent.type = "image/"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(intent,RequesteCode)
+        startActivityForResult(intent, RequesteCode)
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == RequesteCode && resultCode == Activity.RESULT_OK && data!!.data != null){
+        if (requestCode == RequesteCode && resultCode == Activity.RESULT_OK && data!!.data != null) {
 
             imageeUri = data.data
-            Toast.makeText(context, "アップロード中",Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "アップロード中", Toast.LENGTH_LONG).show()
             uploadImageToDatabase()
 
         }
@@ -290,35 +290,35 @@ class SettingsFragment : Fragment() {
         progressBar.setMessage("画像アップロード中です。しばらくお待ちください。")
         progressBar.show()
 
-        if (imageeUri!=null){
+        if (imageeUri != null) {
 
-            val fileRef = storgeRef!!.child(System.currentTimeMillis().toString()+ ".jpg")
+            val fileRef = storgeRef!!.child(System.currentTimeMillis().toString() + ".jpg")
             var uploadTask: StorageTask<*>
             uploadTask = fileRef.putFile(imageeUri!!)
 
-            uploadTask.continueWithTask(Continuation <UploadTask.TaskSnapshot, Task<Uri>>{ task ->
-                if (!task.isSuccessful){
+            uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
                     task.exception?.let {
                         throw it
                     }
                 }
                 return@Continuation fileRef.downloadUrl
             }).addOnCompleteListener { task ->
-                if (task.isSuccessful){
+                if (task.isSuccessful) {
 
                     val downloadUrl = task.result
                     val url = downloadUrl.toString()
 
-                    if (coverChecker == "cover"){
+                    if (coverChecker == "cover") {
 
-                        val  mapCoverImg = HashMap<String,Any>()
+                        val mapCoverImg = HashMap<String, Any>()
                         mapCoverImg["cover"] = url
                         usersRefrence!!.updateChildren(mapCoverImg)
                         coverChecker = ""
 
                     } else {
 
-                        val  mapProfileImg = HashMap<String,Any>()
+                        val mapProfileImg = HashMap<String, Any>()
                         mapProfileImg["profile"] = url
                         usersRefrence!!.updateChildren(mapProfileImg)
                         coverChecker = ""
