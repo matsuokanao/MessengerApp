@@ -32,6 +32,7 @@ class ChatsAdapter(
     private val mContext: Context
     private val mChatList: List<Chat>
     private val imageUrl: String
+    //現在ログインしているユーザーを取得する
     val firebaseUser: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
 
     init {
@@ -43,7 +44,7 @@ class ChatsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): ViewHolder {
 
         return if (position == 1) {
-
+            //指定したxmlのレイアウトViewを利用
             val view: View = LayoutInflater.from(mContext)
                 .inflate(com.example.messengerapp.R.layout.message_item_right, parent, false)
             ViewHolder(view)
@@ -161,7 +162,7 @@ class ChatsAdapter(
             }
         }
 
-        //sent and seen message
+        //送信　表示されたメッセージ
         if (position == mChatList.size - 1) {
 
             if (chat.isIsSeen()) {
@@ -234,7 +235,7 @@ class ChatsAdapter(
 
                 } else {
 
-                    Toast.makeText(holder.itemView.context, "削除できません。", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(holder.itemView.context, "削除できませんでした。", Toast.LENGTH_SHORT).show()
                 }
             }
     }

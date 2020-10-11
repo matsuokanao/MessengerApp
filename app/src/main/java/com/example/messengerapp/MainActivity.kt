@@ -32,12 +32,14 @@ import java.text.FieldPosition
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
+    //データベースでデータの読み書きを行う
     var refUsers: DatabaseReference? = null
     var firebaseUser: FirebaseUser? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //スクリーン画面にViewを設定
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar_main)
 
@@ -46,16 +48,20 @@ class MainActivity : AppCompatActivity() {
 
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_main)
+        //ツールバー
         setSupportActionBar(toolbar)
         supportActionBar!!.title=""
 
         val tabLayout: TabLayout = findViewById(R.id.tab_layout)
         val viewPager: ViewPager = findViewById(R.id.view_page)
 
+        //チャット内容を表示する
         val ref = FirebaseDatabase.getInstance().reference.child("Chats")
         ref!!.addValueEventListener(object : ValueEventListener{
+            //Chatsデータが変更されるたびに呼び出す
             override fun onDataChange(p0: DataSnapshot) {
 
+                //adapterのインスタンス生成
                 val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
 
                 var countUnreadMessages = 0
@@ -71,15 +77,20 @@ class MainActivity : AppCompatActivity() {
 
                 if (countUnreadMessages == 0){
 
+                    //トーク画面　フラグメント作成
                     viewPagerAdapter.addFragment(ChatsFragment(),"トーク画面")
 
                 } else {
 
                     viewPagerAdapter.addFragment(ChatsFragment(),"($countUnreadMessages)トーク")
                 }
+                //コーチ検索画面　フラグメント作成
                 viewPagerAdapter.addFragment(SearchFragment(),"コーチを探す")
+                //ユーザー設定画面　フラグメント作成
                 viewPagerAdapter.addFragment(SettingsFragment(),"ユーザー設定")
+                /// adapterをセット
                 viewPager.adapter = viewPagerAdapter
+                //TabLayoutにViewPagerを設定
                 tabLayout.setupWithViewPager(viewPager)
 
             }
@@ -89,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        //display username and profile picture
+        //ユーザー名とプロフィール写真を表示する
         refUsers!!.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0.exists()){
@@ -117,14 +128,14 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    //メニューのアイテムを押下した時の処理の関数
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
          when (item.itemId) {
 
+             //ログアウトボタンを押した時
             R.id.action_logout -> {
 
+                //ログアウト処理を行う
                 FirebaseAuth.getInstance().signOut()
 
                 val intent = Intent(this@MainActivity,WelcomeActivity::class.java)
@@ -138,6 +149,7 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
+    //ページの情報を設定
     internal  class ViewPagerAdapter(fragmentManager: FragmentManager):
 
             FragmentPagerAdapter(fragmentManager)
@@ -167,7 +179,7 @@ class MainActivity : AppCompatActivity() {
             return titles[i]
         }
     }
-
+    //onlineかofflineの判断処理を行う
     private  fun updateStatus(status: String){
 
         val ref= FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser!!.uid)
@@ -176,6 +188,7 @@ class MainActivity : AppCompatActivity() {
 
         hashMap["status"] = status
 
+        //データの更新　
         ref!!.updateChildren(hashMap)
     }
 
@@ -186,7 +199,7 @@ class MainActivity : AppCompatActivity() {
         updateStatus("online")
     }
 
-    //ユーザーがアクティビティを離レテいることを示す
+    //ユーザーがアクティビティを離れていることを示す
     override fun onPause() {
 
         super.onPause()

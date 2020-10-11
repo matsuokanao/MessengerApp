@@ -13,6 +13,8 @@ import org.junit.Assert.*
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
+
+//テストランナークラスにAndroidJUnit4を指定
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
     @Test

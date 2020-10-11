@@ -60,6 +60,7 @@ class MessageChatActivity : AppCompatActivity() {
 
         }
 
+        //アプリサーバーからの送信リクエストを作成する
         apiService = Client.Client.getClient("https://fcm.googleapis.com/")!!.create(APIService::class.java)
 
         intent = intent

@@ -13,7 +13,7 @@ public interface APIService {
             "Content-Type:application/json",
             "Authorization:key=AAAAjHklMP0:APA91bFN9JH-B0FyRwO1pNNnKmFOGR5m4y1_QUL8z-1fFflW4dl5Y_o2AxSqSRtCkGzcQgYyCPHhwCuPgP3RMfF5DrPuviBuKpFwV6eEB-ZSsPgZgp8aAEKa08FiGGMFZZSfqY6hb-jL"
     })
-
+//POST　値を隠して送る
     @POST("fcm/send")
     Call<MyResponse>sendNotification(@Body Sender body);
 }

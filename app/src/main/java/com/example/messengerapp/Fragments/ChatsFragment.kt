@@ -26,15 +26,18 @@ class ChatsFragment : Fragment() {
     private var userAdapter: UserAdapter? = null
     private var mUsers: List<Users>? = null
     private var usersChatList: List<Chatlist>? = null
+    //1行分のデータを1行分のViewに設定して生成
     lateinit var recycler_view_chatlist: RecyclerView
     private var firebaseUser: FirebaseUser? = null
 
     override fun onCreateView(
 
+        //Fragmentが初めてUIを描画する時にシステムが呼び出す
         inflater: LayoutInflater, container: ViewGroup?,
+        //Fragment生成時にシステムが呼び出す
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        // Fragmentとlayoutを紐付ける
         val view = inflater.inflate(R.layout.fragment_chats, container, false)
 
         recycler_view_chatlist = view.findViewById(R.id.recycler_view_chatlist)
